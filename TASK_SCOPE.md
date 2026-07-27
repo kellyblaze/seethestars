@@ -1,0 +1,24 @@
+# TASK_SCOPE.md
+
+- Task ID: TS-001
+- Date: 2026-07-27
+- Objective: Create a root README.md that explains the seethestars plugin marketplace to contributors and Claude Code users
+- Allowed files: README.md (new file at repo root)
+- Forbidden paths: .claude/settings.json, .claude-plugin/marketplace.json, .loop-setup-backup/, .env*, all existing loop and instruction files
+- Maximum changed files: 1
+- Out of scope: any changes to marketplace.json, plugin source, settings, or loop files
+- Acceptance criteria:
+  - README.md exists at repo root
+  - Explains what seethestars-plugins is and how to add it
+  - Documents how to install available plugins
+  - Lists the four enabled plugins with brief descriptions
+  - Mentions the Trail of Bits security plugin collection
+  - Contains no fabricated commands or URLs not verified from the repo
+- Validation commands: none (Markdown only; no JSON validation needed)
+- Maximum repair cycles: 2
+- Approval gates: git commit (ask), git push (ask)
+- Rollback: git rm README.md && git commit
+- Branch/worktree: chore/loop-engineering-setup
+- Designated implementer: implementer agent
+- Designated verifier: verifier agent
+- Completion condition: README.md exists, acceptance criteria met, verifier returns PASS or PASS WITH CONDITIONS
