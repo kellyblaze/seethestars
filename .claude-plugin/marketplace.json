@@ -2,10 +2,10 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "seethestars-plugins",
   "version": "1.0.0",
-  "description": "Bundled plugins for Claude Code including Agent SDK development tools, PR review toolkit, and commit workflows",
+  "description": "Plugin marketplace for Claude Code curated by kellyblaze — includes Trail of Bits security audit tools, scientific research skills, full-stack development skills, and productivity enhancements",
   "owner": {
-    "name": "Anthropic",
-    "email": "support@anthropic.com"
+    "name": "kellyblaze",
+    "email": "kellyblazeent@gmail.com"
   },
   "plugins": [
     {
@@ -46,7 +46,8 @@
       },
       "strict": false,
       "skills": "./skills/",
-      "category": "science"
+      "category": "science",
+      "_reviewNote": "Personal GitHub account (K-Dense-AI). Pinned at v1.0.0. Review before upgrading — S-016."
     },
     {
       "name": "fullstack-dev-skills",
@@ -59,7 +60,8 @@
         "source": "github",
         "repo": "jeffallan/claude-skills"
       },
-      "category": "development"
+      "category": "development",
+      "_reviewNote": "Personal GitHub account (jeffallan). Pinned at v0.4.15. Review before upgrading — S-016."
     },
     {
       "name": "ask-questions-if-underspecified",

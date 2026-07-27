@@ -14,14 +14,9 @@ Loop sync: 90/100 (one low-severity warning)
 - **Status:** RESOLVED — 2026-07-27
 - **Resolution:** `main` created from `chore/loop-engineering-setup` by owner. All instruction files updated.
 
-### S-006 — marketplace.json owner metadata is wrong (Anthropic, not kellyblaze)
-- **Priority:** P1
-- **Status:** OPEN
-- **Finding:** `marketplace.json` lists `"owner": { "name": "Anthropic", "email": "support@anthropic.com" }`. Repo belongs to `kellyblaze`. Misleading to marketplace consumers.
-- **Evidence:** `.claude-plugin/marketplace.json` lines 10–13
-- **Confidence:** VERIFIED FACT
-- **Recommended action:** Update to `kellyblaze` / `kellyblazeent@gmail.com`
-- **Approval required:** YES — marketplace.json is a protected path.
+### ~~S-006~~ — marketplace.json owner corrected ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** owner updated to `kellyblaze` / `kellyblazeent@gmail.com`; description updated to reflect actual content (Trail of Bits security tools, scientific skills, etc.).
 
 ### ~~S-007~~ — npx loop commands pinned to @0.1.2 ✓
 - **Status:** RESOLVED — 2026-07-27
@@ -72,13 +67,8 @@ Loop sync: 90/100 (one low-severity warning)
 - **Status:** RESOLVED — 2026-07-27
 - **Resolution:** `Bash(rm -rf*)` replaced with `Bash(rm*)` covering all rm variants.
 
-### S-013 — marketplace description does not match content
-- **Priority:** P3
-- **Status:** OPEN
-- **Finding:** marketplace.json description says "Agent SDK development tools, PR review toolkit, and commit workflows" — actual content is dominated by Trail of Bits security audit tools.
-- **Evidence:** `.claude-plugin/marketplace.json` description field
-- **Recommended action:** Update description to reflect actual content.
-- **Approval required:** YES — marketplace.json is a protected path.
+### ~~S-013~~ — marketplace description corrected ✓
+- **Status:** RESOLVED — 2026-07-27 (bundled with S-006)
 
 ### ~~S-014~~ — loop-ledger.json created ✓
 - **Status:** RESOLVED — 2026-07-27
@@ -92,12 +82,9 @@ Loop sync: 90/100 (one low-severity warning)
 - **Recommended action:** Review trailofbits/skills second-opinion SKILL.md before enabling; add warning to CLAUDE.md.
 - **Approval required:** YES before enabling.
 
-### S-016 — K-Dense-AI and jeffallan plugins have no organizational affiliation
-- **Priority:** P1
-- **Status:** WATCH
-- **Finding:** `scientific-skills` (K-Dense-AI) and `fullstack-dev-skills` (jeffallan) are personal GitHub accounts. Abandonment or compromise risk. No version pinning.
-- **Recommended action:** Pin to specific commit SHAs; add periodic review gate.
-- **Approval required:** YES — marketplace.json is a protected path.
+### ~~S-016~~ — unaffiliated plugins version-pinned and review-noted ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** `scientific-skills` pinned at v1.0.0; `fullstack-dev-skills` pinned at v0.4.15. Both have `_reviewNote` fields flagging personal account risk and requiring review before any upgrade. SHA pinning not supported by marketplace schema.
 
 ---
 
