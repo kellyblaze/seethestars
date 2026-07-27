@@ -1,0 +1,115 @@
+# gate.yaml — seethestars approval gates
+# Read by LOOP.md, CLAUDE.md, AGENTS.md, and COWORK_PROJECT_INSTRUCTIONS.md.
+# Every action listed here requires explicit human approval before proceeding,
+# regardless of autonomy level.
+
+version: 1
+project: seethestars
+owner: kellyblaze
+updated: 2026-07-27
+
+# ---------------------------------------------------------------------------
+# HIGH-RISK — human approval required every time, no exceptions
+# ---------------------------------------------------------------------------
+high_risk:
+  - action: git_push
+    description: Pushing any branch to origin
+    approval: explicit per push
+
+  - action: git_merge
+    description: Merging a PR or branch
+    approval: explicit per merge
+
+  - action: pull_request_create
+    description: Opening a pull request
+    approval: explicit per PR
+
+  - action: release_or_tag
+    description: Creating a git tag or GitHub release
+    approval: explicit per release
+
+  - action: marketplace_json_write
+    description: Editing .claude-plugin/marketplace.json
+    path: .claude-plugin/marketplace.json
+    approval: explicit per change
+    reason: Changes affect all users of the seethestars-plugins marketplace
+
+  - action: settings_json_write
+    description: Editing .claude/settings.json
+    path: .claude/settings.json
+    approval: explicit per change
+    reason: Changes affect marketplace registration and enabled plugins
+
+  - action: plugin_add_or_remove
+    description: Adding or removing a plugin entry from the marketplace
+    approval: explicit per plugin
+
+  - action: dependency_install
+    description: Running npm install or adding any package
+    approval: explicit per install
+
+  - action: branch_delete
+    description: Deleting any branch
+    approval: explicit per deletion
+
+  - action: file_delete
+    description: Deleting any tracked file
+    approval: explicit per file
+
+# ---------------------------------------------------------------------------
+# PROTECTED — require explicit approval; no loop autonomy at any level
+# ---------------------------------------------------------------------------
+protected_paths:
+  - .claude/settings.json
+  - .claude-plugin/marketplace.json
+  - .loop-setup-backup/
+  - .env*
+
+# ---------------------------------------------------------------------------
+# L2 ALLOWLIST — actions a designated implementer may perform at L2
+# without a separate approval gate, given an active TASK_SCOPE.md
+# ---------------------------------------------------------------------------
+l2_allowlist:
+  - action: edit_loop_files
+    description: Edit LOOP.md, STATE.md, loop-budget.md, loop-constraints.md, loop-run-log.md
+    condition: Active TASK_SCOPE.md present
+
+  - action: edit_plugin_source
+    description: Edit files under plugins/<name>/ (not marketplace.json)
+    condition: Active TASK_SCOPE.md; allowed files listed explicitly
+
+  - action: edit_claude_agents_skills
+    description: Edit .claude/agents/ or .claude/skills/
+    condition: Active TASK_SCOPE.md
+
+  - action: validate_json
+    description: Run node JSON.parse validation on marketplace.json
+    condition: Read-only check; no side effects
+
+  - action: loop_doctor
+    description: Run npx @cobusgreyling/loop doctor .
+    condition: Non-destructive; always allowed
+
+  - action: loop_sync
+    description: Run npx @cobusgreyling/loop sync .
+    condition: Non-destructive; always allowed
+
+# ---------------------------------------------------------------------------
+# CIRCUIT BREAKERS
+# ---------------------------------------------------------------------------
+circuit_breakers:
+  max_repair_cycles: 2
+  max_files_per_task: 10
+  stop_on_identical_failure: true
+  loop_pause_label: loop-pause-all
+
+# ---------------------------------------------------------------------------
+# NOTES
+# ---------------------------------------------------------------------------
+notes: |
+  - gate.yaml is authoritative. CLAUDE.md and AGENTS.md instructions are
+    advisory; this file is the machine-readable enforcement layer.
+  - Production branch is unresolved. Until confirmed, treat every branch
+    as potentially production and require explicit approval for all merges.
+  - Advance to L3 only after ten successful L2 tasks in the same category
+    with no escaped high-severity defects.

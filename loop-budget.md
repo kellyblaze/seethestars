@@ -8,6 +8,14 @@
 |------|--------------|----------------|--------------------------|
 | Daily Triage | 2 | 100k | 0 (L1) / 2 (L2) |
 
+## Per-task limits (L2)
+
+| Limit | Value |
+|---|---|
+| Max files changed per task | 10 |
+| Max repair cycles per task | 2 |
+| Max retries on identical failure | 1 (stop on second) |
+
 ## On budget exceed
 
 1. Pause schedulers (`scheduler_delete` or disable automations)

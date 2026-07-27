@@ -12,5 +12,37 @@
     "superpowers@seethestars-plugins": true,
     "scientific-skills@seethestars-plugins": true,
     "fullstack-dev-skills@seethestars-plugins": true
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git show*)",
+      "Bash(node -e *)",
+      "Bash(npx @cobusgreyling/loop doctor*)",
+      "Bash(npx @cobusgreyling/loop sync*)",
+      "Bash(npx @cobusgreyling/loop cost*)"
+    ],
+    "ask": [
+      "Edit",
+      "Write",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(npm install*)",
+      "Bash(npx @cobusgreyling/loop init*)"
+    ],
+    "deny": [
+      "Read(.env*)",
+      "Bash(git push*)",
+      "Bash(git push --force*)",
+      "Bash(git merge*)",
+      "Bash(git reset --hard*)",
+      "Bash(rm -rf*)"
+    ]
   }
 }
