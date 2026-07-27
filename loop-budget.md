@@ -1,4 +1,4 @@
-# Loop Budget — YOUR_PROJECT
+# Loop Budget — seethestars
 
 > Primary loop: **Daily Triage** (scaffolded by loop-init)
 

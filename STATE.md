@@ -1,85 +1,171 @@
 # Loop State — seethestars
 
-Last run: 2026-07-27 (initial harness build)
+Last run: 2026-07-27 (first L1 triage — four specialist agents)
 Current autonomy: L1 report-only
 Branch: chore/loop-engineering-setup
+Loop doctor: 100/100 HEALTHY
+Loop sync: 90/100 (one low-severity warning)
 
 ---
 
 ## High Priority (loop is acting or waiting on human)
 
 ### S-001 — Production branch unresolved
+- **Priority:** P0
 - **Status:** OPEN — waiting on owner
-- **Finding:** No `main` or `master` branch exists. Three `claude/*` branches present. Cannot safely merge or release until the canonical production branch is confirmed.
-- **Action required:** Owner (`kellyblaze`) to confirm which branch is production.
-- **Approval required:** YES — before any merge or release.
+- **Finding:** No `main` or `master` branch exists. Three branches present: `chore/loop-engineering-setup`, `claude/upbeat-cori-swv4jr`, `claude/zealous-ritchie-lOcy6`. Cannot safely merge or release until canonical production branch is confirmed.
+- **Evidence:** `git branch -a` — no main/master (verified by Triage A)
+- **Confidence:** VERIFIED FACT
+- **Action required:** Owner (`kellyblaze`) to designate production branch.
+- **Approval required:** YES — owner decision.
+
+### S-006 — marketplace.json owner metadata is wrong (Anthropic, not kellyblaze)
+- **Priority:** P1
+- **Status:** OPEN
+- **Finding:** `marketplace.json` lists `"owner": { "name": "Anthropic", "email": "support@anthropic.com" }`. Repo belongs to `kellyblaze`. Misleading to marketplace consumers.
+- **Evidence:** `.claude-plugin/marketplace.json` lines 10–13
+- **Confidence:** VERIFIED FACT
+- **Recommended action:** Update to `kellyblaze` / `kellyblazeent@gmail.com`
+- **Approval required:** YES — marketplace.json is a protected path.
+
+### S-007 — npx @cobusgreyling/loop is auto-allowed without version pinning
+- **Priority:** P1
+- **Status:** OPEN
+- **Finding:** Three `npx @cobusgreyling/loop*` commands are in the `allow` list in settings.json, meaning they run without confirmation. No version is pinned; if the npm package is compromised, it executes automatically.
+- **Evidence:** `.claude/settings.json` lines 27–29; no package-lock.json exists
+- **Confidence:** HIGH
+- **Recommended action:** Pin to `@cobusgreyling/loop@0.1.2` (verified installed version), or move to `ask` tier.
+- **Approval required:** YES — settings.json is a protected path.
+
+### S-008 — loop-constraints.md does not name protected config files
+- **Priority:** P1
+- **Status:** OPEN
+- **Finding:** loop-constraints.md prohibits `.env`, `auth/`, `secrets/` etc. but does not explicitly name `.claude/settings.json` or `.claude-plugin/marketplace.json`, which are the most sensitive files in the repo.
+- **Evidence:** loop-constraints.md lines 13–15; gate.yaml protects them but loop-constraints.md does not.
+- **Confidence:** HIGH
+- **Recommended action:** Add both paths to the prohibited-edit list in loop-constraints.md.
+- **Approval required:** NO — loop file edit is L2-allowlisted.
 
 ---
 
 ## Watch List
 
-### S-002 — gate.yaml created; permissions block not yet added to settings.json
-- **Status:** OPEN
-- **Finding:** `.claude/settings.json` has marketplace/plugin config but no `permissions` block. Hard enforcement of deny rules (push, rm -rf, .env reads) is not yet active.
-- **Recommended action:** Add conservative `allow`, `ask`, and `deny` blocks per Loop Engineering guide Section 8.
-- **Approval required:** YES (settings.json is a protected path).
+### S-002 — permissions block added to settings.json ✓ RESOLVED
+- **Status:** RESOLVED (S-C004 was accurate; S-002 was stale)
+- **Evidence:** `.claude/settings.json` lines 16–47 confirmed by Triage A.
 
-### S-003 — LOOP.md does not reference STATE.md
-- **Status:** OPEN (loop sync warning)
-- **Finding:** `loop sync` reports low structural similarity between LOOP.md and STATE.md.
-- **Recommended action:** Update LOOP.md to reference STATE.md explicitly (low risk).
-- **Approval required:** No — loop-file edit is L2-allowlisted.
+### S-003 — LOOP.md does not reference STATE.md ✓ RESOLVED
+- **Status:** RESOLVED — `loop sync` now 90/100; LOOP.md line 11 explicitly references STATE.md. Prior warning was a structural-similarity heuristic.
 
 ### S-004 — No CI configured
+- **Priority:** P2
 - **Status:** WATCH
-- **Finding:** No `.github/workflows/` exists. No automated validation runs on push.
-- **Recommended action:** Consider adding a minimal CI workflow to validate `marketplace.json` on PR.
-- **Approval required:** YES (CI workflow creation requires human review).
+- **Finding:** No `.github/workflows/` exists. No automated JSON validation or loop doctor runs on push/PR.
+- **Recommended action:** Add minimal CI workflow (validate marketplace.json) when plugin count grows.
+- **Approval required:** YES — CI workflow creation requires human review.
 
 ### S-005 — Cowork project not yet created
+- **Priority:** P2
 - **Status:** OPEN
-- **Finding:** `COWORK_PROJECT_INSTRUCTIONS.md` exists but the Cowork project itself has not been set up. Three `[REPLACE OR NONE]` placeholders remain (communication sources, notification destination, Slack/email connector).
-- **Recommended action:** Owner to create Cowork project, add this file as context, and resolve placeholders.
-- **Approval required:** Owner action required.
+- **Finding:** `COWORK_PROJECT_INSTRUCTIONS.md` exists but Cowork project not set up. Three `[REPLACE OR NONE]` placeholders remain (lines 22, 27, 78).
+- **Recommended action:** Owner to create Cowork project and resolve placeholders.
+- **Approval required:** Owner action.
+
+### S-009 — No README.md at repo root
+- **Priority:** P1
+- **Status:** OPEN
+- **Finding:** No root README.md. Repo is undiscoverable to new contributors or marketplace users. Only `plugins/frontend-design/README.md` exists.
+- **Recommended action:** Create root README.md describing purpose, plugin installation, marketplace structure.
+- **Approval required:** NO for file creation; YES for commit/push.
+
+### S-010 — No .gitignore at repo root
+- **Priority:** P2
+- **Status:** OPEN
+- **Finding:** No `.gitignore`. At minimum should exclude `.env*` and `node_modules/`.
+- **Recommended action:** Add minimal `.gitignore`.
+- **Approval required:** NO for file creation; YES for commit/push.
+
+### S-011 — deny list missing network tools (curl, wget, WebFetch)
+- **Priority:** P2
+- **Status:** OPEN
+- **Finding:** `Bash(curl*)`, `Bash(wget*)` absent from deny list. An agent could exfiltrate data or fetch remote payloads.
+- **Evidence:** `.claude/settings.json` lines 39–46
+- **Recommended action:** Add to deny list.
+- **Approval required:** YES — settings.json is a protected path.
+
+### S-012 — rm deny rule is incomplete
+- **Priority:** P2
+- **Status:** OPEN
+- **Finding:** `Bash(rm -rf*)` blocks recursive force delete but not `Bash(rm -r*)`, `Bash(rm -f*)`, or `Bash(rm *)`.
+- **Recommended action:** Replace with broader `Bash(rm *)` deny rule.
+- **Approval required:** YES — settings.json is a protected path.
+
+### S-013 — marketplace description does not match content
+- **Priority:** P3
+- **Status:** OPEN
+- **Finding:** marketplace.json description says "Agent SDK development tools, PR review toolkit, and commit workflows" — actual content is dominated by Trail of Bits security audit tools.
+- **Evidence:** `.claude-plugin/marketplace.json` description field
+- **Recommended action:** Update description to reflect actual content.
+- **Approval required:** YES — marketplace.json is a protected path.
+
+### S-014 — loop-ledger.json missing
+- **Priority:** P2
+- **Status:** OPEN
+- **Finding:** `loop-constraints.md` line 21 references `loop-ledger.json` as the backing file for attempt-limit enforcement, but the file does not exist.
+- **Recommended action:** Create as `{}` before any L2 repair cycles begin.
+- **Approval required:** NO — loop file creation is L2-allowlisted.
+
+### S-015 — second-opinion plugin externalizes code to third-party LLMs
+- **Priority:** P2
+- **Status:** WATCH
+- **Finding:** The `second-opinion` plugin description states it uses OpenAI Codex and Google Gemini. If enabled, uncommitted code could be transmitted to third-party APIs without per-invocation awareness.
+- **Confidence:** MEDIUM (based on plugin description; SKILL.md not reviewed)
+- **Recommended action:** Review trailofbits/skills second-opinion SKILL.md before enabling; add warning to CLAUDE.md.
+- **Approval required:** YES before enabling.
+
+### S-016 — K-Dense-AI and jeffallan plugins have no organizational affiliation
+- **Priority:** P1
+- **Status:** WATCH
+- **Finding:** `scientific-skills` (K-Dense-AI) and `fullstack-dev-skills` (jeffallan) are personal GitHub accounts. Abandonment or compromise risk. No version pinning.
+- **Recommended action:** Pin to specific commit SHAs; add periodic review gate.
+- **Approval required:** YES — marketplace.json is a protected path.
 
 ---
 
 ## Completed
 
 ### S-C001 — Global 20% layer configured
-- `~/.claude/CLAUDE.md` created with universal operating agreement.
-- 7 global skills created: plan-change, verify-change, review-diff, security-review, implementation-packet, failure-retrospective, handoff-session.
-- 3 global agents created: planner, verifier, security-reviewer.
+- `~/.claude/CLAUDE.md`, 7 global skills, 3 global agents.
 - Date: 2026-07-27
 
 ### S-C002 — Loop Engineering scaffold run
-- `npx @cobusgreyling/loop init . --pattern daily-triage --tool claude` completed.
-- Generated: LOOP.md, STATE.md, loop-budget.md, loop-constraints.md, loop-run-log.md, AGENTS.md (template), .claude/agents/loop-verifier.md, .claude/skills/loop-triage/, loop-budget skill, loop-constraints skill.
-- Loop doctor: 100/100 HEALTHY.
+- `loop init` complete. Loop doctor 100/100.
 - Date: 2026-07-27
 
 ### S-C003 — 80% project instruction layer placed
-- CLAUDE.md: personalized for seethestars (Claude Code layer).
-- AGENTS.md: personalized for seethestars (Codex layer), replacing scaffold placeholder.
-- COWORK_PROJECT_INSTRUCTIONS.md: personalized for seethestars (Cowork layer).
-- Verifier verdict: PASS WITH CONDITIONS (conditions resolved — commit made).
+- CLAUDE.md, AGENTS.md, COWORK_PROJECT_INSTRUCTIONS.md placed and committed.
+- Verifier: PASS WITH CONDITIONS (conditions resolved).
 - Date: 2026-07-27
 
-### S-C004 — Full harness build
-- gate.yaml created.
-- STATE.md personalized.
-- LOOP.md updated to reference STATE.md.
-- loop-budget.md project name corrected.
-- Project-local agents: planner.md, implementer.md, verifier.md, security-reviewer.md.
-- Project-local skill: implementation-packet.
-- .claude/settings.json: permissions block added.
+### S-C004 — Full harness built (Phase 2)
+- gate.yaml, STATE.md, LOOP.md (updated), loop-budget.md (updated), .claude/settings.json (permissions added), .claude/agents/ (planner, implementer, verifier, security-reviewer), .claude/skills/implementation-packet/.
+- Date: 2026-07-27
+
+### S-C005 — First L1 triage run completed (Phase 3)
+- Four specialist agents run: architecture (Triage A), CI/build (Triage B), security (Triage C), documentation (Triage D).
+- Findings: 1 P0, 6 P1, 9 P2, 5 P3.
+- No source files modified.
+- loop-run-log.md initialized with backfill entry.
+- loop-budget.md and loop-run-log.md placeholder names corrected to `seethestars`.
 - Date: 2026-07-27
 
 ---
 
 ## Recent Noise (ignored)
 
-- npm major version upgrade notice (npm 10 → 12) — not actioned; not a project dependency.
+- npm major version upgrade notice (10 → 12) — not a project dependency.
+- `Bash(git push --force*)` redundant deny entry — harmless; clean up in next settings review (P3).
+- S-003 loop sync warning — confirmed false positive; LOOP.md does reference STATE.md.
 
 ---
 
