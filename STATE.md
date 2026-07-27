@@ -37,12 +37,9 @@ Loop sync: 90/100 (one low-severity warning)
 ### S-003 — LOOP.md does not reference STATE.md ✓ RESOLVED
 - **Status:** RESOLVED — `loop sync` now 90/100; LOOP.md line 11 explicitly references STATE.md. Prior warning was a structural-similarity heuristic.
 
-### S-004 — No CI configured
-- **Priority:** P2
-- **Status:** WATCH
-- **Finding:** No `.github/workflows/` exists. No automated JSON validation or loop doctor runs on push/PR.
-- **Recommended action:** Add minimal CI workflow (validate marketplace.json) when plugin count grows.
-- **Approval required:** YES — CI workflow creation requires human review.
+### ~~S-004~~ — CI workflow added ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** `.github/workflows/validate.yml` runs on every push and PR: validates marketplace.json (schema + required fields), validates settings.json, and runs `loop doctor`.
 
 ### S-005 — Cowork project not yet created
 - **Priority:** P2

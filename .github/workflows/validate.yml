@@ -1,0 +1,47 @@
+name: Validate
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  validate:
+    name: Validate marketplace and config
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate marketplace.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const src = '.claude-plugin/marketplace.json';
+            const raw = fs.readFileSync(src, 'utf8');
+            const data = JSON.parse(raw);
+            if (!data.name) throw new Error('Missing marketplace name');
+            if (!data.owner || !data.owner.name || !data.owner.email) throw new Error('Missing owner fields');
+            if (!Array.isArray(data.plugins)) throw new Error('plugins must be an array');
+            data.plugins.forEach((p, i) => {
+              if (!p.name) throw new Error('Plugin ' + i + ' missing name');
+              if (!p.version) throw new Error('Plugin ' + p.name + ' missing version');
+              if (!p.source) throw new Error('Plugin ' + p.name + ' missing source');
+            });
+            console.log('marketplace.json VALID — ' + data.plugins.length + ' plugins');
+          "
+
+      - name: Validate .claude/settings.json
+        run: |
+          node -e "
+            const fs = require('fs');
+            const raw = fs.readFileSync('.claude/settings.json', 'utf8');
+            const data = JSON.parse(raw);
+            if (!data.extraKnownMarketplaces) throw new Error('Missing extraKnownMarketplaces');
+            if (!data.enabledPlugins) throw new Error('Missing enabledPlugins');
+            console.log('.claude/settings.json VALID');
+          "
+
+      - name: Run loop doctor
+        run: npx @cobusgreyling/loop@0.1.2 doctor .
