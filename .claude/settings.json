@@ -33,12 +33,12 @@
       "Write",
       "Bash(git add*)",
       "Bash(git commit*)",
+      "Bash(git push*)",
       "Bash(npm install*)",
       "Bash(npx @cobusgreyling/loop init*)"
     ],
     "deny": [
       "Read(.env*)",
-      "Bash(git push*)",
       "Bash(git push --force*)",
       "Bash(git merge*)",
       "Bash(git reset --hard*)",
