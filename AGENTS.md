@@ -19,7 +19,7 @@
 | Database/storage | None |
 | Authentication | None (GitHub authorization implicit) |
 | Hosting/deployment | GitHub — `kellyblaze/seethestars` |
-| Production branch | `[UNRESOLVED — confirm with owner before any merge/release]` |
+| Production branch | `main` |
 | Issue tracker | GitHub Issues (kellyblaze/seethestars) |
 | CI provider | None found |
 | Current autonomy ceiling | `L1 — report-only` |
@@ -27,7 +27,7 @@
 
 ### Placeholder rule
 
-Do not enable L2 or L3 behavior until `production branch` is confirmed. When inspecting, report evidence — do not silently update this file.
+When a value remains marked `REPLACE` or `DISCOVER AND CONFIRM`, inspect authoritative project files and report — do not silently update this file.
 
 ---
 

@@ -2,7 +2,7 @@
 
 Last run: 2026-07-27 (first L1 triage — four specialist agents)
 Current autonomy: L1 report-only
-Branch: chore/loop-engineering-setup
+Production branch: main
 Loop doctor: 100/100 HEALTHY
 Loop sync: 90/100 (one low-severity warning)
 
@@ -10,14 +10,9 @@ Loop sync: 90/100 (one low-severity warning)
 
 ## High Priority (loop is acting or waiting on human)
 
-### S-001 — Production branch unresolved
-- **Priority:** P0
-- **Status:** OPEN — waiting on owner
-- **Finding:** No `main` or `master` branch exists. Three branches present: `chore/loop-engineering-setup`, `claude/upbeat-cori-swv4jr`, `claude/zealous-ritchie-lOcy6`. Cannot safely merge or release until canonical production branch is confirmed.
-- **Evidence:** `git branch -a` — no main/master (verified by Triage A)
-- **Confidence:** VERIFIED FACT
-- **Action required:** Owner (`kellyblaze`) to designate production branch.
-- **Approval required:** YES — owner decision.
+### ~~S-001~~ — Production branch resolved ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** `main` created from `chore/loop-engineering-setup` by owner. All instruction files updated.
 
 ### S-006 — marketplace.json owner metadata is wrong (Anthropic, not kellyblaze)
 - **Priority:** P1

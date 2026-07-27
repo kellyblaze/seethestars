@@ -20,7 +20,7 @@
 | Database/storage | None |
 | Authentication | None (GitHub authorization implicit) |
 | Hosting/deployment | GitHub — `kellyblaze/seethestars` |
-| Production branch | `[UNRESOLVED — no main/master exists; confirm with owner]` |
+| Production branch | `main` |
 | CI provider | None found |
 | Current autonomy ceiling | `L1 — report-only` |
 | Project owner/approver | `kellyblaze` (kellyblazeent@gmail.com) |
@@ -281,7 +281,7 @@ Require explicit authorization for: staging, committing, pushing, PR creation, r
 
 Never force-push. Never discard work you did not create.
 
-Production branch is unresolved — confirm before any merge or release action.
+Production branch is `main`. Never force-push to main.
 
 ---
 
