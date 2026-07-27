@@ -1,0 +1,16 @@
+{
+  "extraKnownMarketplaces": {
+    "seethestars-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "kellyblaze/seethestars"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "frontend-design@seethestars-plugins": true,
+    "superpowers@seethestars-plugins": true,
+    "scientific-skills@seethestars-plugins": true,
+    "fullstack-dev-skills@seethestars-plugins": true
+  }
+}
