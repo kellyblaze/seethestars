@@ -32,14 +32,9 @@ Loop sync: 90/100 (one low-severity warning)
 - **Recommended action:** Pin to `@cobusgreyling/loop@0.1.2` (verified installed version), or move to `ask` tier.
 - **Approval required:** YES — settings.json is a protected path.
 
-### S-008 — loop-constraints.md does not name protected config files
-- **Priority:** P1
-- **Status:** OPEN
-- **Finding:** loop-constraints.md prohibits `.env`, `auth/`, `secrets/` etc. but does not explicitly name `.claude/settings.json` or `.claude-plugin/marketplace.json`, which are the most sensitive files in the repo.
-- **Evidence:** loop-constraints.md lines 13–15; gate.yaml protects them but loop-constraints.md does not.
-- **Confidence:** HIGH
-- **Recommended action:** Add both paths to the prohibited-edit list in loop-constraints.md.
-- **Approval required:** NO — loop file edit is L2-allowlisted.
+### ~~S-008~~ — loop-constraints.md updated with protected config paths ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** Added `.claude/settings.json`, `.claude-plugin/marketplace.json`, and `.loop-setup-backup/` to the Paths section of loop-constraints.md.
 
 ---
 
@@ -66,19 +61,13 @@ Loop sync: 90/100 (one low-severity warning)
 - **Recommended action:** Owner to create Cowork project and resolve placeholders.
 - **Approval required:** Owner action.
 
-### S-009 — No README.md at repo root
-- **Priority:** P1
-- **Status:** OPEN
-- **Finding:** No root README.md. Repo is undiscoverable to new contributors or marketplace users. Only `plugins/frontend-design/README.md` exists.
-- **Recommended action:** Create root README.md describing purpose, plugin installation, marketplace structure.
-- **Approval required:** NO for file creation; YES for commit/push.
+### ~~S-009~~ — README.md created ✓
+- **Status:** RESOLVED — 2026-07-27 (TS-001)
+- **Resolution:** Root README.md created, verified, and committed. Verifier: PASS WITH CONDITIONS (condition: commit — resolved).
 
-### S-010 — No .gitignore at repo root
-- **Priority:** P2
-- **Status:** OPEN
-- **Finding:** No `.gitignore`. At minimum should exclude `.env*` and `node_modules/`.
-- **Recommended action:** Add minimal `.gitignore`.
-- **Approval required:** NO for file creation; YES for commit/push.
+### ~~S-010~~ — .gitignore created ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** `.gitignore` added excluding `.env*`, `node_modules/`, local Claude overrides, and `loop-ledger.json`.
 
 ### S-011 — deny list missing network tools (curl, wget, WebFetch)
 - **Priority:** P2
@@ -103,12 +92,9 @@ Loop sync: 90/100 (one low-severity warning)
 - **Recommended action:** Update description to reflect actual content.
 - **Approval required:** YES — marketplace.json is a protected path.
 
-### S-014 — loop-ledger.json missing
-- **Priority:** P2
-- **Status:** OPEN
-- **Finding:** `loop-constraints.md` line 21 references `loop-ledger.json` as the backing file for attempt-limit enforcement, but the file does not exist.
-- **Recommended action:** Create as `{}` before any L2 repair cycles begin.
-- **Approval required:** NO — loop file creation is L2-allowlisted.
+### ~~S-014~~ — loop-ledger.json created ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** Created as `{}`. Listed in `.gitignore` so local repair-cycle state is not committed.
 
 ### S-015 — second-opinion plugin externalizes code to third-party LLMs
 - **Priority:** P2

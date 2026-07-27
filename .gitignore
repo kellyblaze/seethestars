@@ -1,0 +1,19 @@
+# Environment and secrets
+.env
+.env.*
+*.env
+
+# Node
+node_modules/
+.npm/
+
+# Claude Code local overrides (personal; not shared)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Loop Engineering local state
+loop-ledger.json
+
+# OS
+.DS_Store
+Thumbs.db

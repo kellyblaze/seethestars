@@ -12,6 +12,9 @@
 ## Paths
 - Never edit .env, .env.*, auth/, payments/, secrets/, credentials/
 - Never edit infrastructure configs without human approval
+- Never edit .claude/settings.json without explicit human approval (protected — affects all tool permissions)
+- Never edit .claude-plugin/marketplace.json without explicit human approval (protected — affects all marketplace users)
+- Never modify .loop-setup-backup/ (read-only backup)
 
 ## Code
 - Always run tests before proposing a fix
