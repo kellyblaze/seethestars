@@ -24,9 +24,9 @@
       "Bash(git branch*)",
       "Bash(git show*)",
       "Bash(node -e *)",
-      "Bash(npx @cobusgreyling/loop doctor*)",
-      "Bash(npx @cobusgreyling/loop sync*)",
-      "Bash(npx @cobusgreyling/loop cost*)"
+      "Bash(npx @cobusgreyling/loop@0.1.2 doctor*)",
+      "Bash(npx @cobusgreyling/loop@0.1.2 sync*)",
+      "Bash(npx @cobusgreyling/loop@0.1.2 cost*)"
     ],
     "ask": [
       "Edit",
@@ -42,7 +42,9 @@
       "Bash(git push --force*)",
       "Bash(git merge*)",
       "Bash(git reset --hard*)",
-      "Bash(rm -rf*)"
+      "Bash(rm*)",
+      "Bash(curl*)",
+      "Bash(wget*)"
     ]
   }
 }

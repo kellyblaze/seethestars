@@ -23,14 +23,9 @@ Loop sync: 90/100 (one low-severity warning)
 - **Recommended action:** Update to `kellyblaze` / `kellyblazeent@gmail.com`
 - **Approval required:** YES — marketplace.json is a protected path.
 
-### S-007 — npx @cobusgreyling/loop is auto-allowed without version pinning
-- **Priority:** P1
-- **Status:** OPEN
-- **Finding:** Three `npx @cobusgreyling/loop*` commands are in the `allow` list in settings.json, meaning they run without confirmation. No version is pinned; if the npm package is compromised, it executes automatically.
-- **Evidence:** `.claude/settings.json` lines 27–29; no package-lock.json exists
-- **Confidence:** HIGH
-- **Recommended action:** Pin to `@cobusgreyling/loop@0.1.2` (verified installed version), or move to `ask` tier.
-- **Approval required:** YES — settings.json is a protected path.
+### ~~S-007~~ — npx loop commands pinned to @0.1.2 ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** allow list entries updated from `@cobusgreyling/loop*` to `@cobusgreyling/loop@0.1.2` for doctor, sync, and cost commands.
 
 ### ~~S-008~~ — loop-constraints.md updated with protected config paths ✓
 - **Status:** RESOLVED — 2026-07-27
@@ -69,20 +64,13 @@ Loop sync: 90/100 (one low-severity warning)
 - **Status:** RESOLVED — 2026-07-27
 - **Resolution:** `.gitignore` added excluding `.env*`, `node_modules/`, local Claude overrides, and `loop-ledger.json`.
 
-### S-011 — deny list missing network tools (curl, wget, WebFetch)
-- **Priority:** P2
-- **Status:** OPEN
-- **Finding:** `Bash(curl*)`, `Bash(wget*)` absent from deny list. An agent could exfiltrate data or fetch remote payloads.
-- **Evidence:** `.claude/settings.json` lines 39–46
-- **Recommended action:** Add to deny list.
-- **Approval required:** YES — settings.json is a protected path.
+### ~~S-011~~ — curl and wget added to deny list ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** `Bash(curl*)` and `Bash(wget*)` added to deny block in settings.json.
 
-### S-012 — rm deny rule is incomplete
-- **Priority:** P2
-- **Status:** OPEN
-- **Finding:** `Bash(rm -rf*)` blocks recursive force delete but not `Bash(rm -r*)`, `Bash(rm -f*)`, or `Bash(rm *)`.
-- **Recommended action:** Replace with broader `Bash(rm *)` deny rule.
-- **Approval required:** YES — settings.json is a protected path.
+### ~~S-012~~ — rm deny rule broadened ✓
+- **Status:** RESOLVED — 2026-07-27
+- **Resolution:** `Bash(rm -rf*)` replaced with `Bash(rm*)` covering all rm variants.
 
 ### S-013 — marketplace description does not match content
 - **Priority:** P3
